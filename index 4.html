@@ -82,13 +82,385 @@ background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
 }
 }
 </style>
+<!-- Brochure Modal Styles -->
+<style>
+/* Brochure modal styles */
+.brochure-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.brochure-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.brochure-modal {
+  background: white;
+  border-radius: 24px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.4s ease;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.brochure-modal-overlay.active .brochure-modal {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.brochure-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.brochure-modal-close:hover {
+  background: rgba(0, 0, 0, 0.2);
+  transform: rotate(90deg);
+}
+
+.brochure-modal-content {
+  padding: 20px;
+}
+
+/* Brochure card styles */
+.brochure-card {
+  max-width: 680px;
+  width: 100%;
+  background: white;
+  border-radius: 32px;
+  box-shadow: 0 25px 45px -12px rgba(0, 70, 40, 0.25);
+  overflow: hidden;
+  margin: 0 auto;
+  transition: transform 0.2s ease;
+}
+
+.brochure-card:hover {
+  transform: scale(1.01);
+}
+
+/* Header area – brand / hero */
+.brochure-header {
+  background: #075e54;    /* WhatsApp green deep */
+  color: white;
+  padding: 28px 32px;
+  position: relative;
+}
+
+.brochure-header::after {
+  content: "📱";
+  position: absolute;
+  bottom: -20px;
+  right: 30px;
+  font-size: 64px;
+  opacity: 0.15;
+  transform: rotate(-5deg);
+}
+
+.brand-name {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.tagline {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 400;
+  max-width: 70%;
+}
+
+/* Main content – two columns on wider screens, stacked on mobile */
+.brochure-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 32px;
+  gap: 28px;
+}
+
+.info-section {
+  flex: 2;
+  min-width: 240px;
+}
+
+.highlight-section {
+  flex: 1.5;
+  min-width: 200px;
+  background: #f6faf9;
+  border-radius: 20px;
+  padding: 22px 20px;
+  border: 1px solid #dcf8c6;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a2e2b;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid #25d366;
+  padding-bottom: 10px;
+}
+
+.section-title i {
+  font-size: 1.3rem;
+}
+
+/* Service / feature list */
+.service-list {
+  list-style: none;
+}
+
+.service-list li {
+  padding: 10px 0;
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  border-bottom: 1px dashed #cbd5e0;
+}
+
+.service-list li:last-child {
+  border-bottom: none;
+}
+
+.service-icon {
+  font-size: 1.2rem;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* WhatsApp contact block */
+.whatsapp-block {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  margin-top: 8px;
+}
+
+.phone-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1e3a3a;
+  background: #f1f9f0;
+  padding: 12px 16px;
+  border-radius: 40px;
+  margin-bottom: 20px;
+}
+
+.phone-number {
+  letter-spacing: 0.5px;
+  word-break: break-all;
+}
+
+/* CTA button – WhatsApp */
+.wa-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #25d366;
+  color: white;
+  text-decoration: none;
+  padding: 16px 20px;
+  border-radius: 60px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 8px 16px rgba(37, 211, 102, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+}
+
+.wa-button:hover {
+  background: #20b859;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(37, 211, 102, 0.35);
+}
+
+.wa-button img, .wa-button span {
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* tiny footer / extra */
+.brochure-footer {
+  background: #f0f5f3;
+  padding: 18px 32px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #4a665f;
+  border-top: 1px solid #dcf8c6;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.badge {
+  background: #25d36620;
+  padding: 4px 14px;
+  border-radius: 100px;
+  color: #075e54;
+  font-weight: 500;
+}
+
+/* responsive adjustments */
+@media (max-width: 550px) {
+  .brochure-header {
+    padding: 22px;
+  }
+  .brand-name {
+    font-size: 1.6rem;
+  }
+  .brochure-content {
+    padding: 24px;
+  }
+  .phone-row {
+    font-size: 1rem;
+  }
+  .brochure-modal {
+    border-radius: 16px;
+    margin: 10px;
+  }
+}
+</style>
 </head>
 <body>
 <div id="root"></div>
 <!-- All React Components in One File -->
 <script type="text/babel">
+// Brochure Modal Component
+function BrochureModal({ isOpen, onClose }) {
+  if (!isOpen) return null;
+  
+  return (
+    <div className="brochure-modal-overlay active" onClick={onClose}>
+      <div className="brochure-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="brochure-modal-close" onClick={onClose}>
+          <i className="fas fa-times text-xl"></i>
+        </button>
+        <div className="brochure-modal-content">
+          <div className="brochure-card">
+            {/* HEADER: Your brand / company */}
+            <div className="brochure-header">
+              <div className="brand-name">✨ WebCraft Solutions</div>
+              <div className="tagline">Professional Web Development · Instant Response</div>
+            </div>
+
+            {/* MAIN CONTENT: two columns */}
+            <div className="brochure-content">
+              {/* LEFT: Services / about */}
+              <div className="info-section">
+                <div className="section-title">
+                  <span>🌟</span> Our Services
+                </div>
+                <ul className="service-list">
+                  <li>
+                    <span className="service-icon">⚡</span>
+                    <span><strong>24/7 Support</strong> – real humans, not bots</span>
+                  </li>
+                  <li>
+                    <span className="service-icon">🚀</span>
+                    <span><strong>Fast Delivery</strong> · projects completed in record time</span>
+                  </li>
+                  <li>
+                    <span className="service-icon">🎨</span>
+                    <span><strong>Custom Design</strong> · unique websites tailored to your brand</span>
+                  </li>
+                  <li>
+                    <span className="service-icon">💬</span>
+                    <span><strong>Free Consultation</strong> · 30 min strategy session</span>
+                  </li>
+                </ul>
+                <div style={{marginTop: '24px', fontStyle: 'italic', color: '#3b5c54', background: '#ecfaf5', padding: '12px', borderRadius: '16px'}}>
+                  ⏱️ We reply within 5 minutes – <strong>even on weekends</strong>.
+                </div>
+              </div>
+
+              {/* RIGHT: WhatsApp highlight + number */}
+              <div className="highlight-section">
+                <div className="section-title">
+                  <span>📲</span> Tap & Chat
+                </div>
+                <div className="whatsapp-block">
+                  <div className="phone-row">
+                    <span style={{fontSize: '1.8rem'}}>📞</span>
+                    <span className="phone-number">+27 71 283 3221</span>
+                  </div>
+                  <a 
+                    href="https://wa.me/27712833221?text=Hello!%20I%20saw%20your%20brochure%20and%20would%20like%20to%20discuss%20my%20web%20development%20project." 
+                    className="wa-button" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Chat with us on WhatsApp"
+                    onClick={(e) => {
+                      // Prevent closing the modal when clicking the WhatsApp link
+                      e.stopPropagation();
+                    }}
+                  >
+                    <span style={{fontSize: '1.6rem'}}>💬</span>
+                    Message on WhatsApp
+                    <span style={{fontSize: '0.9rem', opacity: 0.9}}>→</span>
+                  </a>
+                  <p style={{marginTop: '16px', fontSize: '0.8rem', color: '#2c5e4a', background: '#e3f2e9', padding: '10px', borderRadius: '12px', textAlign: 'center'}}>
+                    ✅ Pre-filled message included.<br/> 
+                    <span style={{fontWeight: '600'}}>Click the button → chat opens instantly.</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* FOOTER: extra trust signals / opening hours */}
+            <div className="brochure-footer">
+              <span>📍 Sandton, Johannesburg</span>
+              <span className="badge">⭐ 4.9 (150+ reviews)</span>
+              <span>📅 Mon–Fri 9am–6pm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Header Component
-function Header() {
+function Header({ onDownloadBrochure }) {
 const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 const [scrolled, setScrolled] = React.useState(false);
 React.useEffect(() => {
@@ -147,7 +519,7 @@ onClick={() => setIsMenuOpen(!isMenuOpen)}
 );
 }
 // Hero Component with Background Image
-function Hero() {
+function Hero({ onDownloadBrochure }) {
 return (
 <section id="home" className="relative min-h-screen flex items-center pt-20">
 {/* Background Image with Overlay */}
@@ -173,7 +545,7 @@ From simple landing pages to complex web applications with modern technologies.
 <button className="btn btn-primary" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>
 <i className="fas fa-rocket mr-2"></i> Start Your Project
 </button>
-<button className="btn bg-transparent text-white border-white/30 hover:bg-white/10">
+<button className="btn bg-transparent text-white border-white/30 hover:bg-white/10" onClick={onDownloadBrochure}>
 <i className="fas fa-download mr-2"></i> Download Brochure
 </button>
 </div>
@@ -1296,11 +1668,21 @@ Back to top
 }
 // Main App Component
 function App() {
+const [showBrochure, setShowBrochure] = React.useState(false);
+  
+const handleDownloadBrochure = () => {
+  setShowBrochure(true);
+};
+
+const handleCloseBrochure = () => {
+  setShowBrochure(false);
+};
+  
 return (
 <div className="min-h-screen">
-<Header />
+<Header onDownloadBrochure={handleDownloadBrochure} />
 <main>
-<Hero />
+<Hero onDownloadBrochure={handleDownloadBrochure} />
 <Services />
 <Process />
 <Portfolio />
@@ -1311,6 +1693,7 @@ return (
 </main>
 <Footer />
 <FloatingButtons />
+<BrochureModal isOpen={showBrochure} onClose={handleCloseBrochure} />
 </div>
 );
 }
